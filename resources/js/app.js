@@ -1,13 +1,18 @@
 import './bootstrap';
 
 window.addEventListener('load', () => {
-    document.querySelectorAll('[data-lazyload]').forEach(image => new LazyImage(image));
+    document.querySelectorAll('[data-lazyload]').forEach(picture => new LazyImage(picture));
 });
 
 class LazyImage {
-    constructor(image) {
-        this.img = image;
-        this.init();
+    constructor(picture) {
+        //Work with the image container
+        this.picture = picture;
+
+        //this works for both versions, if you only use one, modify the querySelector
+        this.img = this.picture.querySelector('[loading="lazy"], [data-src]');
+
+        if (this.img) this.init();
     }
 
     init() {
@@ -22,6 +27,6 @@ class LazyImage {
     }
 
     loaded() {
-        this.img.setAttribute('data-lazyload', 'loaded');
+        this.picture.setAttribute('data-lazyload', 'loaded');
     }
 }

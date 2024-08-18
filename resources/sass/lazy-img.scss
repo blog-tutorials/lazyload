@@ -1,14 +1,35 @@
 // Global style for lazyload images
 [data-lazyload] {
-    transition: opacity 200ms ease-in-out;
+    display: block;
+
+    // Set the background image
+    background-image: var(--img, none);
+    background-color: grey;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: all 200ms ease-in-out;
+
+    // Set transition for img
+    img {
+        display: block;
+        transition: all 200ms ease-in-out;
+    }
 }
 
-// Hide image while loading
+// Hide and blur image while loading
 [data-lazyload="loading"] {
-    opacity: 0;
+    filter: blur(4px);
+    img {
+        opacity: 0;
+    }
 }
 
-// Show image when loaded
+// Show image when loaded no need for filter because it's only for the lodading state
 [data-lazyload="loaded"] {
-    opacity: 1;
+    img {
+        opacity: 1;
+    }
 }
+
+
