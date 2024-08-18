@@ -1,0 +1,14 @@
+// Global style for lazyload images
+[data-lazyload] {
+    transition: opacity 200ms ease-in-out;
+}
+
+// Hide image while loading
+[data-lazyload="loading"] {
+    opacity: 0;
+}
+
+// Show image when loaded
+[data-lazyload="loaded"] {
+    opacity: 1;
+}
