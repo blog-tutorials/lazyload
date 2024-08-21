@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
-    $posts = Post::orderBy('created_at')->get();
+    $posts = Post::orderBy('created_at', 'desc')->get();
     return view('homepage', compact('posts'));
 });
 

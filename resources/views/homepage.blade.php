@@ -17,8 +17,8 @@
         @foreach ($posts as $post)
             <article class="post-card">
                 <h2 class="post-card__title">{{ $post->title }}</h2>
-                <img class="post-card__thumbnail" src="{{ asset($post->thumbnail) }}"
-                    alt="Awsome thumbnail from the post: {{ $post->title }}" />
+                <x-lazy-image src="{{ asset($post->thumbnail) }}"
+                    lazy="{{ asset($post->getVariant('thumbnail', 'lazy')) }}" alt="Lorem" />
             </article>
         @endforeach
     </section>

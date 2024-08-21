@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use SplFileInfo;
 
 class PostController extends Controller
 {
@@ -37,6 +41,15 @@ class PostController extends Controller
     protected function manageImage($file): string
     {
         $path = $file->store('posts/' . Str::uuid(), 'public');
+        $file = new SplFileInfo($path);
+        $lazy = $file->getPath() . '/' . $file->getBasename('.' . $file->getExtension()) . '-lazy.' . $file->getExtension();
+
+        // create image manager with desired driver
+        $image = ImageManager::imagick()
+            ->read(public_path('storage/' . $path))
+            ->scale(width: 20)
+            ->save(public_path('storage/' . $lazy));
+
 
         return $path;
     }
