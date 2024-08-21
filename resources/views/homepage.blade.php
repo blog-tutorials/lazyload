@@ -9,13 +9,27 @@
 </head>
 
 <body>
-    <picture data-lazyload="loading" style="--img: url(https://picsum.photos/20/20?random=1);">
+    <h1>Lazy loading backend</h1>
+
+    <x-post-form />
+
+    <section class="posts">
+        @foreach ($posts as $post)
+            <article class="post-card">
+                <h2 class="post-card__title">{{ $post->title }}</h2>
+                <img class="post-card__thumbnail" src="{{ asset($post->thumbnail) }}"
+                    alt="Awsome thumbnail from the post: {{ $post->title }}" />
+            </article>
+        @endforeach
+    </section>
+
+    {{-- <picture data-lazyload="loading" style="--img: url(https://picsum.photos/20/20?random=1);">
         <img src="https://picsum.photos/2000/2000?random=1" loading="lazy">
     </picture>
 
     <picture data-lazyload="loading" style="--img: url(https://picsum.photos/20/20?random=2);">
         <img data-src="https://picsum.photos/2000/2000?random=2">
-    </picture>
+    </picture> --}}
 </body>
 
 </html>

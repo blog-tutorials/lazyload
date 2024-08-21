@@ -1,34 +1,5 @@
+@use "./base.scss";
 @use "./lazy-img.scss";
-
-html {
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-}
-
-ol,
-ul {
-    list-style: none;
-}
-
-picture {
-    margin: 0 auto;
-    width: 50%;
-    display: block;
-}
-
-img {
-    display: block;
-    width: 100%;
-}
+@use "./post-form.scss";
+@use "./post-card.scss";
+@use "./posts.scss";

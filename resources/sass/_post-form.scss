@@ -1,0 +1,37 @@
+// Overkill reset
+$txt: black;
+$theme: goldenrod;
+$theme-txt: white;
+
+input,
+button {
+    all: unset;
+    box-sizing: inherit;
+    display: block;
+    border: 1px solid $theme;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 4px;
+}
+
+button {
+    cursor: pointer;
+    text-align: center;
+    margin-top: 24px;
+    background-color: $theme;
+    color: $theme-txt;
+}
+
+form {
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 500px;
+    margin: 48px auto 0;
+    border: 1px solid $txt;
+}
