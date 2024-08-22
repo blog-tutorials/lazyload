@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Support\Str;
+use App\Jobs\ResizeVariants;
 use Illuminate\Http\Request;
-use Intervention\Image\Image;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
-use SplFileInfo;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Model;
 
 class PostController extends Controller
 {
@@ -20,7 +19,9 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $request->validate($this->rules);
-        $this->save($request->except('_token'));
+        $post = $this->save($request->except('_token'));
+
+        ResizeVariants::dispatch($post);
 
         return back();
     }
@@ -33,24 +34,15 @@ class PostController extends Controller
 
         $post->title = $attributes['title'];
         $post->slug = Str::slug($attributes['title']);
-        $post->thumbnail = $this->manageImage($attributes['thumbnail']);
-
+        $post->thumbnail = $this->manageImage($attributes['thumbnail'], $post);
         $post->save($attributes);
+
+        return $post->refresh();
     }
 
-    protected function manageImage($file): string
+    protected function manageImage(UploadedFile $file, Model $post): string
     {
         $path = $file->store('posts/' . Str::uuid(), 'public');
-        $file = new SplFileInfo($path);
-        $lazy = $file->getPath() . '/' . $file->getBasename('.' . $file->getExtension()) . '-lazy.' . $file->getExtension();
-
-        // create image manager with desired driver
-        $image = ImageManager::imagick()
-            ->read(public_path('storage/' . $path))
-            ->scale(width: 20)
-            ->save(public_path('storage/' . $lazy));
-
-
         return $path;
     }
 }

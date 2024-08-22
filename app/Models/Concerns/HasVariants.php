@@ -19,7 +19,7 @@ trait HasVariants
         }
 
         $extension = '.' . $file->getExtension();
-        $variantPath = str_replace($extension, '-lazy' . $extension,  $original);
+        $variantPath = str_replace($extension, '-' . $variant . $extension,  $original);
 
         return $variantPath;
     }
