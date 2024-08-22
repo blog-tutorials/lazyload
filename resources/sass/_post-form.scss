@@ -16,21 +16,21 @@ button {
 
 label {
     display: block;
+    margin-top: 16px;
     margin-bottom: 4px;
 }
 
 button {
     cursor: pointer;
     text-align: center;
+    margin-top: 24px;
     background-color: $theme;
     color: $theme-txt;
-    grid-column: span 2;
 }
 
 form {
     border-radius: 8px;
-    margin: 48px;
-    display: grid;
-    gap: 24px;
-    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    padding: 48px;
+    max-width: 500px;
+    margin: 0 auto;
 }
