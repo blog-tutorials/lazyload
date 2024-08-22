@@ -20,7 +20,6 @@ class PostController extends Controller
     {
         $request->validate($this->rules);
         $post = $this->save($request->except('_token'));
-        ResizeVariants::dispatch($post);
 
 
         return back();
@@ -34,14 +33,11 @@ class PostController extends Controller
 
         $post->title = $attributes['title'];
         $post->slug = Str::slug($attributes['title']);
-        $post->thumbnail = $this->manageImage($attributes['thumbnail'], $post);
         $post->save($attributes);
-        return $post->refresh();
-    }
 
-    protected function manageImage(UploadedFile $file, Model $post): string
-    {
-        $path = $file->store('posts/' . Str::uuid(), 'public');
-        return $path;
+        $post->addMedia($attributes['thumbnail'])
+            ->toMediaCollection('thumbnail');
+
+        return $post->refresh();
     }
 }
