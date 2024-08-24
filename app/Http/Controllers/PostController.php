@@ -19,27 +19,22 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $request->validate($this->rules);
-        $post = $this->save($request->except('_token'));
+        $post = $this->save($request->only('title', 'thumbnail'));
         ResizeVariants::dispatch($post);
-
 
         return back();
     }
 
     public function save(array $attributes, null|Post $post = null)
     {
-        if (!$post) {
-            $post = new Post();
-        };
+        $attributes['thumbnail'] = $this->manageImage($attributes['thumbnail']);
+        $attributes['slug'] = Str::slug($attributes['title']);
+        $post = Post::updateOrCreate(['title' => $attributes['title']], $attributes);
 
-        $post->title = $attributes['title'];
-        $post->slug = Str::slug($attributes['title']);
-        $post->thumbnail = $this->manageImage($attributes['thumbnail'], $post);
-        $post->save($attributes);
         return $post->refresh();
     }
 
-    protected function manageImage(UploadedFile $file, Model $post): string
+    protected function manageImage(UploadedFile $file): string
     {
         $path = $file->store('posts/' . Str::uuid(), 'public');
         return $path;

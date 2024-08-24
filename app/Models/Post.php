@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
+    use HasFactory, HasVariants;
+
+    protected $fillable = ['title', 'slug', 'thumbnail'];
+
     public array $variants = [
         'thumbnail' => [
             'square' => ['width' => 500, 'height' => 500],
             'lazy' => ['width' => 20],
         ]
     ];
-
-    use HasFactory, HasVariants;
 }
