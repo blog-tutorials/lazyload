@@ -35,9 +35,14 @@ class PostController extends Controller
         $post->slug = Str::slug($attributes['title']);
         $post->save($attributes);
 
-        $post->addMedia($attributes['thumbnail'])
-            ->toMediaCollection('thumbnail');
+        $this->manageImage($post, $attributes['title']);
 
         return $post->refresh();
+    }
+
+    protected function manageImage(Post $post, UploadedFile $file): void
+    {
+        $post->addMedia($file)
+            ->toMediaCollection('thumbnail');
     }
 }
