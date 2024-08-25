@@ -40,7 +40,7 @@ class ResizeVariants implements ShouldQueue
         }
     }
 
-    protected function manageVariant($file, $variants): void
+    protected function manageVariant(SplFileInfo $file, array $variants): void
     {
         if (!$file->getRealPath()) return;
 
