@@ -29,9 +29,11 @@ class PostController extends Controller
     {
         $attributes['thumbnail'] = $this->manageImage($attributes['thumbnail']);
         $attributes['slug'] = Str::slug($attributes['title']);
-        $post = Post::updateOrCreate(['title' => $attributes['title']], $attributes);
+        $post = Post::updateOrCreate([
+            'slug' => $attributes['slug']
+        ], $attributes);
 
-        return $post->refresh();
+        return $post;
     }
 
     protected function manageImage(UploadedFile $file): string

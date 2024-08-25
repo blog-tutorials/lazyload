@@ -33,16 +33,18 @@ class ResizeVariants implements ShouldQueue
         foreach ($this->model->variants as $attribute => $variants) {
             $path = $this->model->{$attribute};
 
-            if ($path) $this->manageVariant($path, $variants);
+            if (!$path) continue;
+
+            $file = new SplFileInfo(public_path('storage/' . $path));
+            $this->manageVariant($file, $variants);
         }
     }
 
-    protected function manageVariant($path, $variants): void
+    protected function manageVariant($file, $variants): void
     {
-        $file = new SplFileInfo(public_path('storage/' . $path));
+        if (!$file->getRealPath()) return;
 
         foreach ($variants as $variantName => $dimensions) {
-            if (!$file->getRealPath()) return;
             $this->resize($file, $variantName, $dimensions);
         }
     }
