@@ -51,11 +51,13 @@ class ResizeVariants implements ShouldQueue
 
     protected function resize(SplFileInfo $file, string $variantName, array $dimensions): void
     {
+        //define null by default to aviod having to use the "??" operator everywhere
         $dimensions = array_merge([
             'width' => null,
             'height' => null,
         ], $dimensions);
 
+        //define null by default to aviod having to use the "??" operator everywhere
         $variantPath = $this->buildPath($file, $variantName);
 
         $image = ImageManager::imagick()
@@ -72,7 +74,10 @@ class ResizeVariants implements ShouldQueue
 
     protected function buildPath(SplFileInfo $file, string $variantName): string
     {
-        $pathTemplate = $file->getPath() . '/' . $file->getBasename('.' . $file->getExtension()) . '-' . $variantName . '.' . $file->getExtension();
-        return $pathTemplate;
+        // return only 'filename' without the extention
+        $fileName = $file->getBaseName("." . $file->getExtension());
+
+        // return the full path with filename replaced by "filename-$variant";
+        return str_replace($fileName, $fileName . '-' . $variantName, $file->getRealpath());
     }
 }

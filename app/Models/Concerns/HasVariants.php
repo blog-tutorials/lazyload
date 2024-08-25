@@ -9,6 +9,7 @@ trait HasVariants
 {
     public function getVariant(string $attribute = 'image', string $variant = 'original'): string|null
     {
+        //returns something like "posts/filename.png"
         $original = $this->{$attribute};
         $file = new SplFileInfo(public_path('storage/' . $original));
 
@@ -18,8 +19,8 @@ trait HasVariants
             return $original;
         }
 
-        $extension = '.' . $file->getExtension();
-        $variantPath = str_replace($extension, '-' . $variant . $extension,  $original);
+        $fileName = $file->getBaseName("." . $file->getExtension());
+        $variantPath = str_replace($fileName, $fileName . '-' . $variant,  $original);
 
         return $variantPath;
     }
